@@ -24,6 +24,7 @@ for r in tab :
 
 fig, ax = plt.subplots(figsize=(15,10))
 ax.plot(dates,rad)
+fig.suptitle("Évolution du nombre d'hospitalisations en Charente-Maritime", fontsize=16)
 ax.xaxis.set_major_locator(plt.MaxNLocator(10))
 plt.xticks(rotation=45, horizontalalignment="right")
 plt.show()
