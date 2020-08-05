@@ -2,7 +2,6 @@ import requests
 import csv
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import datetime as dt
 from dateutil.parser import parse
 
 url = "https://www.data.gouv.fr/fr/datasets/r/63352e38-d353-4b54-bfd1-f1b3ee1cabd7"
