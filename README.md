@@ -1,4 +1,6 @@
-# COVID-19 evolution in French departments (Last update: 22/04/20)
+[![Run on Repl.it](https://repl.it/badge/github/Cordier-Info/covid-france)](https://repl.it/github/Cordier-Info/covid-france)
+
+
 
 Visualize evolution of the number of people hospitalized in French departments due to COVID-19 infection
 
