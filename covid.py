@@ -1,6 +1,8 @@
 import requests
 import csv
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import datetime as dt
 from dateutil.parser import parse
 
 url = "https://www.data.gouv.fr/fr/datasets/r/63352e38-d353-4b54-bfd1-f1b3ee1cabd7"
@@ -20,11 +22,13 @@ dates , rad = [],[]
 for r in tab :
     if r[2]=='17' :
         rad.append(r[0])
-        dates.append(r[1].strftime("%d/%m")) # strftime() permet de donner le format souhaité aux dates
+        dates.append(r[1])
+        # dates.append(r[1].strftime("%d/%m")) # strftime() permet de donner le format souhaité aux dates
 
 fig, ax = plt.subplots(figsize=(15,10))
 ax.plot(dates,rad)
 fig.suptitle("Évolution du nombre d'hospitalisations en Charente-Maritime", fontsize=16)
-ax.xaxis.set_major_locator(plt.MaxNLocator(10)) # pour contrôler le nombre de graduations sur l'axe des abscisse
-plt.xticks(rotation=45, horizontalalignment="right")
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m'))
+ax.xaxis.set_major_locator(mdates.DayLocator(interval=5))
+fig.autofmt_xdate()
 plt.show()
