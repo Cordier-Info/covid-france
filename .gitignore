@@ -28,6 +28,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+img*
+tmp*
 
 # End of https://www.toptal.com/developers/gitignore/api/osx
 .ipynb_checkpoints*
