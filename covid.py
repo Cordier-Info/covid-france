@@ -11,11 +11,25 @@ download = requests.get(url)
 brut = download.content.decode('utf-8') # pour transformer les bytes récupérés en string
 lignes = brut.split('\n')
 date, hosp = [],[]
+jour = parse("2020-03-18")
+# ces andouilles ont changé de format de date pour quelques données,
+# du coup on profite que parse reonnaît n'importe quel format comme une date propre.
+hosp_tot = 0
+
 for ligne in lignes[1:-1:3] : # on saute l'en-tête et ne garde que les sexes 0 correspondant à la somme féminin+masculin
-    champs = ligne.split(';')
-    if champs[0] == '"{}"'.format(dep) :
-        date.append(parse(champs[2].strip('"'))) # parse() sert à convertir la chaîne de caractères en une date
-        hosp.append(int(champs[3]))
+    champ = ligne.split(';')
+    if champ[0] == '"{}"'.format(dep) :
+        date.append(parse(champ[2].strip('"'))) # parse() sert à convertir la chaîne de caractères en une date
+        hosp.append(int(champ[3]))
+    elif dep == "0" :
+        if parse(champ[2].strip('"')) == jour :
+            hosp_tot += int(champ[3])
+        else :
+            hosp.append(hosp_tot)
+            date.append(jour)
+            hosp_tot = 0
+            jour = parse(champ[2].strip('"'))
+
 
 # liste noms des départements
 url2 = "https://static.data.gouv.fr/resources/departements-et-leurs-regions/20190815-175403/departements-region.csv"
@@ -29,7 +43,10 @@ for li in lignes2 :
 
 fig, ax = plt.subplots(figsize=(15,10))
 ax.plot(date,hosp)
-fig.suptitle("Évolution du nombre d'hospitalisations en {}".format(nom_dep), fontsize=16)
+if dep == "0" :
+    fig.suptitle("Évolution du nombre d'hospitalisations en France", fontsize=16)
+else :
+    fig.suptitle("Évolution du nombre d'hospitalisations en {}".format(nom_dep), fontsize=16)
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m'))
 ax.xaxis.set_major_locator(mdates.DayLocator(interval=10))
 fig.autofmt_xdate()
